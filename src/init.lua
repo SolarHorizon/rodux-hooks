@@ -4,7 +4,6 @@ local useSelector = require(script.useSelector)
 local useStore = require(script.useStore)
 local useCustomDispatch = require(script.useCustomDispatch)
 local useCustomSelector = require(script.useCustomSelector)
-local useCustomStore = require(script.useCustomStore)
 
 return {
     Provider = Provider,
@@ -13,5 +12,4 @@ return {
     useStore = useStore,
     useCustomDispatch = useCustomDispatch,
     useCustomSelector = useCustomSelector,
-    useCustomStore = useCustomStore,
 }
