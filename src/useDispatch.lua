@@ -1,11 +1,8 @@
 local Context = require(script.Parent.Context)
+local useCustomDispatch = require(script.Parent.useCustomDispatch)
 
 local function useDispatch(hooks)
-	local store = hooks.useContext(Context)
-
-    return function(action)
-        store:dispatch(action)
-    end
+    return useCustomDispatch(hooks, Context)
 end
 
 return useDispatch
