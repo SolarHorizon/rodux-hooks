@@ -10,7 +10,9 @@ local function useSelector(
 	equalityFn: (newState: table, oldState: table) -> boolean
 )
 	local store = hooks.useContext(Context)
-	local mappedState, setMappedState = hooks.useState(selector(store:getState()))
+	local mappedState, setMappedState = hooks.useState(function()
+		return selector(store:getState())
+	end)
 
 	if equalityFn == nil then
 		equalityFn = defaultEqualityFn
