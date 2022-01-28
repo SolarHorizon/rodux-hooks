@@ -3,7 +3,7 @@ A very simple bridge between Roact and Rodux via [roact-hooks](https://github.co
 
 # API
 ## Provider
-Accesses your store via the `store` prop and makes it available to all of its children. There should never be more than one of these in your Roact tree at a time.
+Accesses your store via the `store` prop and makes it available to all of its children. Optionally takes a `context` prop if you're using a custom context.
 
 ```lua
 local function app(props, hooks)
@@ -16,11 +16,9 @@ end
 ```
 
 ## useSelector
-This is the primary way to get data from a Rodux store with rodux-hooks.
+This is the primary way to get data from a Rodux store with rodux-hooks. Multiple useSelector hooks can be used in the same component.
 
-Multiple useSelector hooks can be used in the same component, but you should try to limit your usage because they will trigger a re-render whenever the selector returns a new value.
-
-By default, useSelector will directly compare the old and new value to each other. You can pass a function to `equalityFn` for more control over this.
+By default, useSelector will directly compare the previous value returned by `selector` to the most recent one. When the old and new values are not equal, the component will be re-rendered with the updated state. You can pass a function to `equalityFn` for finer control over this.
 
 `useSelector(hooks: RoactHooks, selector: (state: table), equalityFn: (oldState: table, newState: table) -> boolean) -> any`
 
@@ -42,6 +40,8 @@ end
 
 ## useDispatch
 Returns the dispatch function of your Rodux store.
+
+`useDispatch(hooks: RoactHooks) -> dispatch`
 
 ```lua
 local function ExampleButton(props, hooks)
@@ -66,22 +66,43 @@ end
 ## useStore
 Returns the Rodux store. You will probably rarely ever need to use this.
 
-```lua
-local function BadExampleButton(props, hooks)
-    local store = useStore(hooks)
-
-    -- your component here
-end
-```
+`useStore(hooks: RoactHooks) -> RoduxStore`
 
 ## shallowEqual
 Does a shallow comparison of two values (usually tables). This is included as a helper function to be used with useSelector.
 
-```lua
-local shallowEqual = RoduxHooks.shallowEqual
+`shallowEqual(x: any, y: any) -> boolean`
 
-local function AnotherExampleComponent(props, hooks)
-    local items = RoduxHooks.useSelector(hooks, selector, shallowEqual)
+# Custom Context API
+These functions are exposed in the event that you are using a custom context. You would probably only need to do this if you were using more than one store, which is generally frowned upon in Rodux.
+
+## useCustomSelector
+Like useSelector, but accepts a custom context.
+
+`useCustomSelector(hooks: RoactHooks, selector: (state: table), equalityFn: (oldState: table, newState: table) -> boolean, customContext: RoactContext) -> any`
+
+## useCustomDispatch
+Like useDispatch, but accepts a custom context.
+
+`useCustomDispatch(hooks: RoactHooks, customContext: RoactContext) -> dispatch`
+
+## Example
+```lua
+local CustomContext = Roact.createContext()
+
+local function app(props, hooks)
+    return e(RoduxHooks.Provider, {
+        store = store,
+        context = CustomContext,
+    }, {
+        -- a bunch of components
+    })
+end
+
+-- A component that is a descendant of `app`
+local function YetAnotherExample(props, hooks)
+    local value = RoduxHooks.useCustomSelector(hooks, selector, equalityFn, CustomContext)
+    local dispatch = RoduxHooks.useCustomDispatch(hooks, CustomContext)
 
     -- your component here
 end
