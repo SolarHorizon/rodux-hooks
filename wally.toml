@@ -1,0 +1,11 @@
+[package]
+name = "solarhorizon/rodux-hooks"
+description = "Roact hooks for Rodux"
+authors = ["SolarHorizon"]
+version = "0.1.0"
+registry = "https://github.com/UpliftGames/wally-index"
+realm = "shared"
+license = "MIT"
+
+[dependencies]
+Roact = "roblox/roact@1.4.0"
