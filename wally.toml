@@ -2,7 +2,7 @@
 name = "solarhorizon/rodux-hooks"
 description = "Roact hooks for Rodux"
 authors = ["SolarHorizon"]
-version = "0.2.0"
+version = "0.2.1"
 registry = "https://github.com/UpliftGames/wally-index"
 realm = "shared"
 license = "MIT"
