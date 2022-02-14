@@ -5,8 +5,8 @@ end
 local function useCustomSelector(
 	hooks,
 	selector: (state: table) -> any,
-	equalityFn: (newState: table, oldState: table) -> boolean,
-    context
+	equalityFn: ((newState: table, oldState: table) -> boolean)?,
+	context
 )
 	local store = hooks.useContext(context)
 	local mappedState, setMappedState = hooks.useState(function()
