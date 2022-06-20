@@ -12,6 +12,7 @@ local function useCustomSelector(
 	local mappedState, setMappedState = hooks.useState(function()
 		return selector(store:getState())
 	end)
+	local oldMappedState = hooks.useValue(mappedState)
 
 	if equalityFn == nil then
 		equalityFn = defaultEqualityFn
@@ -21,7 +22,8 @@ local function useCustomSelector(
 		local storeChanged = store.changed:connect(function(newState, _oldState)
 			local newMappedState = selector(newState)
 
-			if not equalityFn(newMappedState, mappedState) then
+			if not equalityFn(newMappedState, oldMappedState.value) then
+				oldMappedState.value = newMappedState
 				setMappedState(newMappedState)
 			end
 		end)
