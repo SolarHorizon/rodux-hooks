@@ -1,3 +1,7 @@
+## 0.3.0
+
+- Fix `useSelector` and `useCustomSelector` not properly updating when the selector returns a non-table value
+
 ## 0.2.2
 
 - Expose `shallowEqual`
