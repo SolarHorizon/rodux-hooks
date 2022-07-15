@@ -10,7 +10,7 @@ Accesses your store via the `store` prop and makes it available to all of its ch
 
 ```lua
 local function app(props, hooks)
-    return e(RoactHooks.Provider, {
+    return e(RoduxHooks.Provider, {
         store = store,
     }, {
         -- your app goes here
