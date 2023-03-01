@@ -1,4 +1,6 @@
 Packages
 ServerPackages
 roblox.toml
+sourcemap.json
+wally.lock
 *.rbxm
