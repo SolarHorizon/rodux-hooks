@@ -13,7 +13,9 @@ local function useCustomSelector(
 	selectorFunc.value = selector
 
 	local store = hooks.useContext(context)
-	local mappedState, setMappedState = hooks.useState(selector(store:getState()))
+	local mappedState, setMappedState = hooks.useState(function()
+		return selector(store:getState())
+	end)
 	local oldMappedState = hooks.useValue(mappedState)
 
 	if equalityFn == nil then
